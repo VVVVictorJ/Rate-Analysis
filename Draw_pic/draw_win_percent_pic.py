@@ -14,7 +14,7 @@ from matplotlib.ticker import FuncFormatter
 data=pd.read_excel(r'C:\Users\Pasto\Desktop\etar.xlsx',sheet_name='Sheet3')
 data.rename(columns={'赛事':'A','独赢':'B','全场 - 让球':'C','全场 - 大小':'D','单双':'E','胜负':'F'},inplace=True)
 data=data[['A','B','C','D','E','F']]
-all=data['F'][data.F>=-1].value_counts()
+all=data['F'][data.F>=-1].value_counts()#统计场次数
 print(all[1])
 #data=data[['A','B','F']][data.F==1]
 #data=data[['B','F']][(data.F==1)&(data.B>1)&(data.B<1.24)]
@@ -38,12 +38,15 @@ count2=data['B'][(data.F==1)&(data.B>0)&(data.B<1)].value_counts()
 # print(count4[1])
 i=1
 j=1.10
+
+all1=all[1]/2
+
 # print("kaishi")
 lll=[]
-for l in range(1,21):
+for l in range(1,21):#创建对应赔率段的数字
     lll.append(l)
 kkk=[]
-for z in range(20):
+for z in range(20):#循环计算胜率
     #print('precent1: {:.1f}'.format(i),'precent2: {:.1f}'.format(j))
     count5=data['F'][(data.F==1)&(data.B>i)&(data.B<j)].value_counts()
     if len(count5)==0:
@@ -53,19 +56,19 @@ for z in range(20):
         continue
     #jie_guo='{:.3f}'.format(count5[1]/all[1]*100)#转百分数
     #jie_guo="%.3f" % (count5[1]/all[1] * 100)
-    jie_guo=count5[1]/all[1]
+    jie_guo=count5[1]/all1
     kkk.append(jie_guo)
     #print(jie_guo)
     i=j
     j=j+0.04
 #print(kkk)
 #ppp=[lll,kkk]
-ccc={
-    'a':lll,
-    'b':kkk
+ccc={       #列表转为字典
+    'a':lll,#lll设为a列
+    'b':kkk#kkk设为b列
 }
 xintu=pd.DataFrame(ccc)
-xintu=xintu[['a','b']][xintu.b!=0]
+xintu=xintu[['a','b']][xintu.b!=0]#筛选出非0点
 print(xintu)
 '''
 去掉0点
